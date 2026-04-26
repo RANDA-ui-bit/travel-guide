@@ -1,7 +1,8 @@
 FROM php:8.2-cli
 
-# تثبيت PostgreSQL driver
-RUN docker-php-ext-install pdo pdo_pgsql
+# تثبيت مكتبات PostgreSQL قبل التثبيت
+RUN apt-get update && apt-get install -y libpq-dev \
+    && docker-php-ext-install pdo_pgsql
 
 WORKDIR /app
 COPY . .
