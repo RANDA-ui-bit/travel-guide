@@ -4,7 +4,7 @@ function get_pdo() {
     $port = "5432";
     $db   = "travel_db_gu65";
     $user = "travel_db_gu65_user";
-    $pass = "gqVPgAQrVGk9rpBheQUrTpqqwBKkIHJ5"; // من Render
+    $pass = "gqVPgAQrVGk9rpBheQUrTpqqwBKkIHJ5";
 
     $dsn = "pgsql:host=$host;port=$port;dbname=$db";
 
@@ -12,5 +12,9 @@ function get_pdo() {
     $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     return $pdo;
+}
+
+function h(string $value): string {
+    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
 }
 ?>
