@@ -64,11 +64,9 @@ require_once __DIR__ . '/partials/header.php';
       </div>
     </div>
 
-    <div class="slideshow">
-      <div class="slide" style="background-image:url('https://picsum.photos/id/1018/1100/700');"></div>
-      <div class="slide" style="background-image:url('https://picsum.photos/id/1022/1100/700');"></div>
-      <div class="slide" style="background-image:url('https://picsum.photos/id/1031/1100/700');"></div>
-    </div>
+    <div class="hero-image">
+  <img src="assets/img/travel.jpg" alt="Travel Image">
+</div>
   </div>
 </section>
 
