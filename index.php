@@ -1,4 +1,9 @@
 <?php
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
+?>
+
+<?php
 $pageTitle = 'Home - Travel & Tourism Guide';
 $internalCss = "
   .home-note {\n    border: 1px solid rgba(79, 209, 197, 0.35);\n    background: rgba(79, 209, 197, 0.10);\n    border-radius: 16px;\n    padding: 12px 14px;\n    margin-top: 14px;\n  }\n
