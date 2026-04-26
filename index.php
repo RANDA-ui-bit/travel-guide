@@ -11,6 +11,13 @@ $internalCss = "
   #welcomeTag {\n    color: var(--accent2);\n    font-weight: 800;\n  }\n";
 
 try {
+  $pdo->exec("
+DELETE FROM destinations
+WHERE id NOT IN (
+  SELECT MIN(id)
+  FROM destinations
+  GROUP BY name, country, description, image_url, best_time
+)");
     $pdo = get_pdo();
 
     // إنشاء الجدول إذا مو موجود
