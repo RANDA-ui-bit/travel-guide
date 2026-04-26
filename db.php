@@ -1,31 +1,16 @@
 <?php
-require_once __DIR__ . '/config.php';
+function get_pdo() {
+    $host = "dpg-d7n4ck1j2pic738llkug-a";
+    $port = "5432";
+    $db   = "travel_db_gu65";
+    $user = "travel_db_gu65_user";
+    $pass = "gqVPgAQrVGk9rpBheQUrTpqqwBKkIHJ5"; // من Render
 
-function get_pdo(): PDO
-{
-    static $pdo = null;
-    if ($pdo instanceof PDO) {
-        return $pdo;
-    }
+    $dsn = "pgsql:host=$host;port=$port;dbname=$db";
 
-    global $DB_HOST, $DB_NAME, $DB_USER, $DB_PASS;
-
-    $dsn = "mysql:host={$DB_HOST};dbname={$DB_NAME};charset=utf8mb4";
-
-    $pdo = new PDO(
-        $dsn,
-        $DB_USER,
-        $DB_PASS,
-        [
-            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
-            PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-        ]
-    );
+    $pdo = new PDO($dsn, $user, $pass);
+    $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
     return $pdo;
 }
-
-function h(string $value): string
-{
-    return htmlspecialchars($value, ENT_QUOTES, 'UTF-8');
-}
+?>
