@@ -11,10 +11,9 @@ $internalCss = "
   #welcomeTag {\n    color: var(--accent2);\n    font-weight: 800;\n  }\n";
 
 try {
-    // ✅ أول شيء: الاتصال
     $pdo = get_pdo();
 
-    // ✅ إنشاء الجدول
+    // إنشاء الجدول إذا مو موجود
     $pdo->exec("
         CREATE TABLE IF NOT EXISTS destinations (
             id SERIAL PRIMARY KEY,
@@ -26,17 +25,7 @@ try {
         )
     ");
 
-    // ✅ تنظيف التكرار (مرة وحدة بس)
-    $pdo->exec("
-        DELETE FROM destinations
-        WHERE id NOT IN (
-            SELECT MIN(id)
-            FROM destinations
-            GROUP BY name, country, description, image_url, best_time
-        )
-    ");
-
-    // ✅ لا يضيف إلا إذا فاضي
+    // ✅ يمنع التكرار (يضيف فقط إذا الجدول فاضي)
     $count = $pdo->query("SELECT COUNT(*) FROM destinations")->fetchColumn();
 
     if ($count == 0) {
@@ -48,13 +37,60 @@ try {
         ");
     }
 
-    // ✅ جلب البيانات
+    // جلب البيانات
     $featured = $pdo->query('SELECT * FROM destinations ORDER BY id LIMIT 6')->fetchAll();
 
 } catch (Exception $e) {
     die("ERROR: " . $e->getMessage());
 }
 
-// ✅ بعد كل شيء
+// الهيدر بعد كل شيء
 require_once __DIR__ . '/partials/header.php';
 ?>
+
+<section class="hero">
+  <div class="container hero-grid">
+    <div class="hero-card">
+      <h1>Plan better trips with a simple guide</h1>
+      <p class="help">Discover destinations, browse tours, and learn travel tips.</p>
+      <div class="badges">
+        <span class="badge" id="welcomeTag">Top picks</span>
+        <span class="badge">Budget ideas</span>
+        <span class="badge">Family-friendly</span>
+        <span class="badge">Food & culture</span>
+      </div>
+      <div class="home-note" style="border-left: 6px solid var(--pink);">
+        <strong>Tip:</strong> Use the <a href="dashboard.php">Dashboard</a>
+      </div>
+    </div>
+
+    <div class="slideshow">
+      <div class="slide" style="background-image:url('https://picsum.photos/id/1018/1100/700');"></div>
+      <div class="slide" style="background-image:url('https://picsum.photos/id/1022/1100/700');"></div>
+      <div class="slide" style="background-image:url('https://picsum.photos/id/1031/1100/700');"></div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="container">
+    <h2>Featured Destinations</h2>
+
+    <div class="grid">
+      <?php foreach ($featured as $d): ?>
+        <article class="card">
+          <img src="<?= h($d['image_url']) ?>" alt="<?= h($d['name']) ?>" />
+          <div class="card-body">
+            <p class="card-title"><?= h($d['name']) ?></p>
+            <p class="card-meta">
+              <?= h($d['country']) ?> • <?= h($d['best_time']) ?>
+            </p>
+          </div>
+        </article>
+      <?php endforeach; ?>
+    </div>
+
+  </div>
+</section>
+
+<?php require_once __DIR__ . '/partials/footer.php'; ?>
